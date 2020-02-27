@@ -1,0 +1,18 @@
+<h2>Search Product</h2>
+<form action="/products" method="GET">
+    <div>
+        <label>Name</label>
+        <input type="text" name="name" value="<%= searchOptions.name %>">
+    </div>
+    <div>
+        <label>Brand</label>
+        <input type="text" name="brand" value="<%= searchOptions.brand %>">
+    </div>
+    <button type="submit">Search</button>
+</form>
+
+<div>
+    <% products.forEach(product => { %> 
+        <img height="150" width="100" src="<%= product.coverImagePath %> ">
+    <% }); %> 
+</div>

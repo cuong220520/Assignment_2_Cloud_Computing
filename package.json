@@ -1,0 +1,32 @@
+{
+  "name": "assignment_2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "devStart": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cuong220520/Assignment_2_Cloud_Computing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cuong220520/Assignment_2_Cloud_Computing/issues"
+  },
+  "homepage": "https://github.com/cuong220520/Assignment_2_Cloud_Computing#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "mongoose": "^5.9.2",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.2"
+  }
+}
