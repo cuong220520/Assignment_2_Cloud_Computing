@@ -1,20 +1,20 @@
 const express = require('express')
 const router = express.Router()
-const multer = require('multer')
-const path = require('path')
-const fs = require('fs')
+// const multer = require('multer')
+// const path = require('path')
+// const fs = require('fs')
 
 const Product = require('../models/product')
 
-const uploadPath = path.join('public', Product.coverImageBasePath)
+// const uploadPath = path.join('public', Product.coverImageBasePath)
 const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif']
 
-const upload = multer({
-    dest: uploadPath,
-    fileFilter: (req, file, callback) => {
-        callback(null, imageMimeTypes.includes(file.mimetype))
-    }
-})
+// const upload = multer({
+//     dest: uploadPath,
+//     fileFilter: (req, file, callback) => {
+//         callback(null, imageMimeTypes.includes(file.mimetype))
+//     }
+// })
 
 router.get('/', async (req, res) => {
     let searchOptions = {};
@@ -39,32 +39,34 @@ router.get('/new', (req, res) => {
     renderNewPage(res, new Product())
 })
 
-router.post('/', upload.single('cover'), async (req, res) => {
-    const fileName = req.file != null ? req.file.filename : null
+router.post('/', async (req, res) => {
+    // const fileName = req.file != null ? req.file.filename : null
     const product = new Product({
         name: req.body.name,
         brand: req.body.brand,
         publishDate: new Date(req.body.publishDate),
-        coverImageName: fileName, 
+        // coverImageName: fileName, 
         description: req.body.description
     })
+
+    saveCover(product, req.body.cover)
 
     try {
         const newProduct = await product.save()
         res.redirect(`products`)
     } catch {
-        if (product.coverImageName != null) {
-            removeProductCover(product.coverImageName)
-        }
+        // if (product.coverImageName != null) {
+        //     removeProductCover(product.coverImageName)
+        // }
         renderNewPage(res, product, true)
     }
 })
 
-function removeProductCover(fileName) {
-    fs.unlink(path.join(uploadPath, fileName), err => {
-        if (err) console.error(err)
-    })
-}
+// function removeProductCover(fileName) {
+//     fs.unlink(path.join(uploadPath, fileName), err => {
+//         if (err) console.error(err)
+//     })
+// }
 
 function renderNewPage(res, product, hasError = false) {
     try {
@@ -75,6 +77,15 @@ function renderNewPage(res, product, hasError = false) {
         res.render('products/new', params)
     } catch {
         res.redirect('/products')
+    }
+}
+
+function saveCover(product, coverEncoded) {
+    if (coverEncoded == null) return
+    const cover = JSON.parse(coverEncoded)
+    if (cover != null && imageMimeTypes.includes(cover.type)) {
+        product.coverImage = new Buffer.from(cover.data, 'base64')
+        product.coverImageType = cover.type
     }
 }
 
