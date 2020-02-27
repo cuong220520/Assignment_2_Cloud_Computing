@@ -1,4 +1,5 @@
 <h2>Search Product</h2>
+<div>
 <form action="/products" method="GET">
     <div>
         <label>Name</label>
@@ -10,9 +11,13 @@
     </div>
     <button type="submit">Search</button>
 </form>
+</div>
 
 <div>
     <% products.forEach(product => { %> 
-        <img height="150" width="100" src="<%= product.coverImagePath %> ">
+        <a href="/products/<%= product.id %>"><img height="150" width="100" src="<%= product.coverImagePath %>"></a>
+        <a href="/products/<%= product.id %>">View</a>
+        <a href="/products/<%= product.id %>/edit">Edit</a>
+        <%- include('../partials/deleteForm', { url: `/products/${product.id}` }) %> 
     <% }); %> 
 </div>

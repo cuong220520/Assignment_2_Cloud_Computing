@@ -1,0 +1,7 @@
+<h2><%= product.name %></h2>
+<img src="<%= product.coverImagePath %>" height="150" width="100">
+<div>Brand: <%= product.brand %></div>
+<div>Publish Date: <%= product.publishDate.toISOString().split('T')[0] %></div>
+<div>Description: <%= product.description %></div>
+<a href="/products/<%= product.id %>/edit">Edit</a>
+<%- include('../partials/deleteForm', { url: `products/${product.id}` }) %> 

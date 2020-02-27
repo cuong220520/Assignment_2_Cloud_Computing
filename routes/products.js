@@ -1,21 +1,11 @@
 const express = require('express')
 const router = express.Router()
-// const multer = require('multer')
-// const path = require('path')
-// const fs = require('fs')
 
 const Product = require('../models/product')
 
-// const uploadPath = path.join('public', Product.coverImageBasePath)
 const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif']
 
-// const upload = multer({
-//     dest: uploadPath,
-//     fileFilter: (req, file, callback) => {
-//         callback(null, imageMimeTypes.includes(file.mimetype))
-//     }
-// })
-
+// All product route
 router.get('/', async (req, res) => {
     let searchOptions = {};
     if (req.query.name != null && req.query.name !== '') {
@@ -35,17 +25,17 @@ router.get('/', async (req, res) => {
     }
 })
 
+// Create product route
 router.get('/new', (req, res) => {
     renderNewPage(res, new Product())
 })
 
+// Create product route
 router.post('/', async (req, res) => {
-    // const fileName = req.file != null ? req.file.filename : null
     const product = new Product({
         name: req.body.name,
         brand: req.body.brand,
         publishDate: new Date(req.body.publishDate),
-        // coverImageName: fileName, 
         description: req.body.description
     })
 
@@ -53,28 +43,95 @@ router.post('/', async (req, res) => {
 
     try {
         const newProduct = await product.save()
-        res.redirect(`products`)
+        res.redirect(`products/${newProduct.id}`)
     } catch {
-        // if (product.coverImageName != null) {
-        //     removeProductCover(product.coverImageName)
-        // }
         renderNewPage(res, product, true)
     }
 })
 
-// function removeProductCover(fileName) {
-//     fs.unlink(path.join(uploadPath, fileName), err => {
-//         if (err) console.error(err)
-//     })
-// }
+// Show product route
+router.get('/:id', async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id)
+        res.render('products/show', { product: product })
+    } catch {
+        res.redirect('/')
+    }
+})
+
+// Update product route
+router.get('/:id/edit', async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id)
+        renderEditPage(res, product)
+    } catch {
+        res.render('/')
+    }
+})
+
+// Update product route
+router.put('/:id', async (req, res) => {
+    let product
+    try {
+        product = await Product.findById(req.params.id)
+        product.name = req.body.name
+        product.brand = req.body.brand
+        product.publishDate = new Date(req.body.publishDate)
+        product.description = req.body.description
+        if (req.body.cover != null && req.body.cover !== '') {
+            saveCover(product, req.body.cover)
+        }
+        await product.save()
+        res.redirect(`/products/${product.id}`)
+    } catch {
+        if (product != null) {
+            renderEditPage(res, product, true)
+        } else {
+            res.redirect('/')
+        }
+    }
+})
+
+// Delete product route
+router.delete('/:id', async (req, res) => {
+    let product
+    try {
+        product = await Product.findById(req.params.id)
+        await product.remove()
+        res.redirect('/products')
+    } catch (error) {
+        if (product != null) {
+            res.render('products/show', {
+                product: product,
+                errorMessage: 'Could not remove product'
+            })
+        } else {
+            res.redirect('/')
+        }
+    }
+})
 
 function renderNewPage(res, product, hasError = false) {
+    renderFormPage(res, product, 'new', hasError)
+}
+
+function renderEditPage(res, product, hasError = false) {
+    renderFormPage(res, product, 'edit', hasError)
+}
+
+function renderFormPage(res, product, form, hasError = false) {
     try {
         const params = {
             product: product
         }
-        if (hasError) params.errorMessage = 'Error Creating Product'
-        res.render('products/new', params)
+        if(hasError) {
+            if (form === 'edit') {
+                params.errorMessage = 'Error Updating Product'
+            } else {
+                params.errorMessage = 'Error Creating Product'
+            }
+        }
+        res.render(`products/${form}`, params)
     } catch {
         res.redirect('/products')
     }
