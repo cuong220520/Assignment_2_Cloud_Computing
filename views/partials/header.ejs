@@ -2,8 +2,14 @@
     <nav>
         <a href="/">ATN warehouse</a>
         <ul>
-            <li><a href="/products">All Products</a></li>
-            <li><a href="/products/new">Add Product</a></li>
+            <% if (isAuthenticated) { %>
+                <li><a href="/products">All Products</a></li>
+                <li><a href="/products/new">Add Product</a></li>
+                <li><a href="">Logout</a></li>
+            <% } else { %>
+                <li><a href="">Login</a></li>
+                <li><a href="">Register</a></li>
+            <% } %> 
         </ul>
     </nav>
 </header>

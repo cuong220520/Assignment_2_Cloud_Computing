@@ -6,7 +6,7 @@ const Product = require('../models/product')
 const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif']
 
 // All product route
-router.get('/', async (req, res) => {
+router.get('/', checkAuthenticated, async (req, res) => {
     let searchOptions = {};
     if (req.query.name != null && req.query.name !== '') {
         searchOptions.name = new RegExp(req.query.name, 'i');
@@ -26,12 +26,12 @@ router.get('/', async (req, res) => {
 })
 
 // Create product route
-router.get('/new', (req, res) => {
+router.get('/new', checkAuthenticated, (req, res) => {
     renderNewPage(res, new Product())
 })
 
 // Create product route
-router.post('/', async (req, res) => {
+router.post('/', checkAuthenticated, async (req, res) => {
     const product = new Product({
         name: req.body.name,
         brand: req.body.brand,
@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
 })
 
 // Show product route
-router.get('/:id', async (req, res) => {
+router.get('/:id', checkAuthenticated, async (req, res) => {
     try {
         const product = await Product.findById(req.params.id)
         res.render('products/show', { product: product })
@@ -60,7 +60,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Update product route
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', checkAuthenticated, async (req, res) => {
     try {
         const product = await Product.findById(req.params.id)
         renderEditPage(res, product)
@@ -70,7 +70,7 @@ router.get('/:id/edit', async (req, res) => {
 })
 
 // Update product route
-router.put('/:id', async (req, res) => {
+router.put('/:id', checkAuthenticated, async (req, res) => {
     let product
     try {
         product = await Product.findById(req.params.id)
@@ -93,7 +93,7 @@ router.put('/:id', async (req, res) => {
 })
 
 // Delete product route
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', checkAuthenticated, async (req, res) => {
     let product
     try {
         product = await Product.findById(req.params.id)
@@ -144,6 +144,22 @@ function saveCover(product, coverEncoded) {
         product.coverImage = new Buffer.from(cover.data, 'base64')
         product.coverImageType = cover.type
     }
+}
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next()
+    }
+
+    res.redirect('/login')
+}
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect('/')
+    }
+
+    next()
 }
 
 module.exports = router
