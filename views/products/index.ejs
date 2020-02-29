@@ -1,4 +1,4 @@
-<h2>Search Product</h2>
+<h2 class="page-header">Search Product</h2>
 <div>
 <form action="/products" method="GET">
     <div>
@@ -9,15 +9,17 @@
         <label>Brand</label>
         <input type="text" name="brand" value="<%= searchOptions.brand %>">
     </div>
-    <button type="submit">Search</button>
+    <button class="btn btn-primary" type="submit">Search</button>
 </form>
 </div>
 
 <div>
     <% products.forEach(product => { %> 
         <a href="/products/<%= product.id %>"><img height="150" width="100" src="<%= product.coverImagePath %>"></a>
-        <a href="/products/<%= product.id %>">View</a>
-        <a href="/products/<%= product.id %>/edit">Edit</a>
-        <%- include('../partials/deleteForm', { url: `/products/${product.id}` }) %> 
+        <div class="btn-row">
+            <a class="btn btn-primary" href="/products/<%= product.id %>">View</a>
+            <a class="btn btn-primary" href="/products/<%= product.id %>/edit">Edit</a>
+            <%- include('../partials/deleteForm', { url: `/products/${product.id}` }) %>
+        </div>
     <% }); %> 
 </div>

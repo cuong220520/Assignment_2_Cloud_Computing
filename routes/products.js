@@ -36,7 +36,8 @@ router.post('/', checkAuthenticated, async (req, res) => {
         name: req.body.name,
         brand: req.body.brand,
         publishDate: new Date(req.body.publishDate),
-        description: req.body.description
+        description: req.body.description,
+        stock: req.body.stock
     })
 
     saveCover(product, req.body.cover)
@@ -78,6 +79,7 @@ router.put('/:id', checkAuthenticated, async (req, res) => {
         product.brand = req.body.brand
         product.publishDate = new Date(req.body.publishDate)
         product.description = req.body.description
+        product.stock = req.body.stock
         if (req.body.cover != null && req.body.cover !== '') {
             saveCover(product, req.body.cover)
         }
@@ -152,14 +154,6 @@ function checkAuthenticated(req, res, next) {
     }
 
     res.redirect('/login')
-}
-
-function checkNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return res.redirect('/')
-    }
-
-    next()
 }
 
 module.exports = router

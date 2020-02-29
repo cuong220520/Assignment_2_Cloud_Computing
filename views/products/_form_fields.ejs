@@ -9,6 +9,11 @@
 </div>
 
 <div>
+    <label>Stock</label>
+    <input type="number" name="stock" min="0" value="<%= product.stock %>">
+</div>
+
+<div>
     <label>Publish Date</label>
     <input type="date" name="publishDate" value="<%= product.publishDate == null ? '' : product.publishDate.toISOString().split('T')[0] %>">
 </div>
