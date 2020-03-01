@@ -1,25 +1,31 @@
 <h2 class="page-header">Search Product</h2>
 <div>
 <form action="/products" method="GET">
-    <div>
-        <label>Name</label>
-        <input type="text" name="name" value="<%= searchOptions.name %>">
+    <div class="form-row">
+        <div class="form-item">
+            <label>Name</label>
+            <input type="text" name="name" value="<%= searchOptions.name %>">
+        </div>
+        <div class="form-item">
+            <label>Brand</label>
+            <input type="text" name="brand" value="<%= searchOptions.brand %>">
+        </div>
     </div>
-    <div>
-        <label>Brand</label>
-        <input type="text" name="brand" value="<%= searchOptions.brand %>">
+    <div class="form-row form-row-end">
+        <button class="btn btn-primary" type="submit">Search</button>
     </div>
-    <button class="btn btn-primary" type="submit">Search</button>
 </form>
 </div>
 
-<div>
+<div class="form-row">
     <% products.forEach(product => { %> 
-        <a href="/products/<%= product.id %>"><img height="150" width="100" src="<%= product.coverImagePath %>"></a>
-        <div class="btn-row">
-            <a class="btn btn-primary" href="/products/<%= product.id %>">View</a>
-            <a class="btn btn-primary" href="/products/<%= product.id %>/edit">Edit</a>
-            <%- include('../partials/deleteForm', { url: `/products/${product.id}` }) %>
-        </div>
+            <div class="form-item">
+                <a href="/products/<%= product.id %>"><img height="150" width="100" src="<%= product.coverImagePath %>"></a>
+            </div>
+            <div class="form-item">
+                <div>Name: <%= product.name %></div>
+                <div>Brand: <%= product.brand %></div>
+                <div>Stock: <%= product.stock %></div>
+            </div>
     <% }); %> 
 </div>

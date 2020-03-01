@@ -33,7 +33,7 @@
     text-decoration: none;
     color: var(--color-text-light);
     font-weight: var(--nav-link-font-weight);
-    padding: 1rem;
+    padding: 1rem;  
 }
 
 .header-nav li a:hover, .header-title:hover {

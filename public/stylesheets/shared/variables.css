@@ -2,6 +2,6 @@
     --color-base-hue: 330;
     --color-background-dark: hsl(var(--color-base-hue), 100%, 15%);
     --color-background-light: hsl(var(--color-base-hue), 100%, 30%);
-    --color-text-light: hsl(var(--color-base-hue), 100%, 90%);
+    --color-text-light: hsl(var(--color-base-hue), 100%, 80%);
     --color-danger-hue: 350;
 }

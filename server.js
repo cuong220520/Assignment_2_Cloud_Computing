@@ -23,9 +23,10 @@ app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 app.use(methodOverride('_method'))
 app.use(express.static('public'))
+app.use(bodyParser.json({ limit: '10mb' }))
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
 app.use(flash())
-app.use(session({
+app.use(session({   
     secret: 'secret',
     resave: false,
     saveUninitialized: false

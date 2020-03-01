@@ -1,6 +1,8 @@
 <h2 class="page-header">New Prodducts</h2>
 <form action="/products" method="POST">
     <%- include('_form_fields') %> 
-    <a href="/products">Cancel</a>
-    <button class="btn btn-primary" type="submit">Create</button>
+    <div class="form-row form-row-end btn-row">
+        <a class="btn btn-danger" href="/products">Cancel</a>
+        <button class="btn btn-primary" type="submit">Create</button>
+    </div>
 </form>

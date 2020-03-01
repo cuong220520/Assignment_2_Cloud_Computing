@@ -6,7 +6,7 @@
     --color-btn-border: white;
     --color-btn-danger-background: hsl(var(--color-danger-hue), 100%, 55%);
     --color-btn-danger-background-dark: hsl(var(--color-danger-hue), 100%, 35%);
-    --color-btn-danger-text: white;
+    --color-btn-danger-text: hsl(350, 100%, 19%);
     --color-btn-danger-text-dark: black;
 }
 .btn {

@@ -3,16 +3,18 @@
         <a class="header-title" href="/">ATN warehouse</a>
         <ul>
             <% if (isAuthenticated) { %>
+                <div class="btn-row">
                 <li><a href="/products">All Products</a></li>
                 <li><a href="/products/new">Add Product</a></li>
-                <li>
-                    <form action="/logout?_method=DELETE" method="post">
-                        <button type="submit">Logout</button>
-                    </form>
-                </li>
+                <form action="/logout?_method=DELETE" method="post">
+                    <button class="btn btn-primary" type="submit">Logout</button>
+                </form>
+                </div>
             <% } else { %>
-                <li><a class="btn btn-primary" href="/login">Login</a></li>
-                <li><a class="btn btn-primary" href="/register">Register</a></li>
+                <div class="btn-row">
+                    <li><a class="btn btn-primary" href="/login">Login</a></li>
+                    <li><a class="btn btn-primary" href="/register">Register</a></li>
+                </div>
             <% } %> 
         </ul>
     </nav>

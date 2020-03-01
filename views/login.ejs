@@ -3,16 +3,21 @@
     <%= messages.error %>
 <% } %>
 <form action="/login" method="POST">
-    <div>
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email">
+    <div class="form-row">
+        <div class="form-item"> 
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email">
+        </div>
     </div>
-    <div>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
+    <div class="form-row">
+        <div class="form-item">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+        </div>
     </div>
-
-    <button class="btn btn-primary" type="submit">Login</button>
+    <div class="btn-row">
+        <button class="btn btn-primary" type="submit">Login</button>
+        <a class="btn btn-primary" href="/register">Register</a>
+    </div>
 </form>
 
-<a href="/register">Register</a>
