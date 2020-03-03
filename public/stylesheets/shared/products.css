@@ -18,5 +18,4 @@
 
 .product-cover-large {
     width: var(--product-cover-width-large);
-    height: calc(var(--product-cover-width-large) / var(--product-cover-aspect-ration));
 }
