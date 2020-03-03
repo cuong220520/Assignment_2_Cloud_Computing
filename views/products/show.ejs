@@ -1,10 +1,10 @@
 <h2 class="page-header"><%= product.name %></h2>
-<img src="<%= product.coverImagePath %>" height="150" width="100">
+<img class="product-cover-large" src="<%= product.coverImagePath %>">
 <div>Brand: <%= product.brand %></div>
 <div>Stock: <%= product.stock %></div>
 <div>Publish Date: <%= product.publishDate.toISOString().split('T')[0] %></div>
 <div>Description: <%= product.description %></div>
 <div class="btn-row">
 <a class="btn btn-primary" href="/products/<%= product.id %>/edit">Edit</a>
-<%- include('../partials/deleteForm', { url: `products/${product.id}` }) %> 
+<%- include('../partials/deleteForm', { url: `/products/${product.id}` }) %> 
 </div>

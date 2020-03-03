@@ -17,15 +17,5 @@
 </form>
 </div>
 
-<div class="form-row">
-    <% products.forEach(product => { %> 
-            <div class="form-item">
-                <a href="/products/<%= product.id %>"><img height="150" width="100" src="<%= product.coverImagePath %>"></a>
-            </div>
-            <div class="form-item">
-                <div>Name: <%= product.name %></div>
-                <div>Brand: <%= product.brand %></div>
-                <div>Stock: <%= product.stock %></div>
-            </div>
-    <% }); %> 
-</div>
+<h2 class="page-header">Products</h2>
+<%- include ('../partials/productGrid') %> 

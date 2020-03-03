@@ -100,7 +100,7 @@ router.delete('/:id', checkAuthenticated, async (req, res) => {
     try {
         product = await Product.findById(req.params.id)
         await product.remove()
-        res.redirect('/products')
+        res.redirect('/')
     } catch (error) {
         if (product != null) {
             res.render('products/show', {

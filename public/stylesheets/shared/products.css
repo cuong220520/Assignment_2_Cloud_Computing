@@ -6,7 +6,7 @@
 
 .product-cover {
     width: var(--product-cover-width);
-    height: calc(var(--product-cover-width / var(--product-cover-aspect-ration)));
+    height: calc(var(--product-cover-width) / var(--product-cover-aspect-ration));
 }
 
 .product-grid {
@@ -16,6 +16,7 @@
     grid-template-columns: repeat(auto-fill, var(--product-cover-width));
 }
 
-.product-grid-large {
-    grid-template-columns: repeat(auto-fill, var(--product-cover-width-large));
+.product-cover-large {
+    width: var(--product-cover-width-large);
+    height: calc(var(--product-cover-width-large) / var(--product-cover-aspect-ration));
 }
