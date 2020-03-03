@@ -23,6 +23,6 @@ function ready() {
         imageResizeTargetHeight: coverHeight
     })
     
-    FilePond.parse(document.body);
+    FilePond.parse(document.body)
 }
 
