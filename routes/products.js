@@ -3,9 +3,10 @@ const router = express.Router()
 
 const Product = require('../models/product')
 
+// types of images are allowed
 const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif']
 
-// All product route
+// all product route
 router.get('/', checkAuthenticated, async (req, res) => {
     let searchOptions = {};
     if (req.query.name != null && req.query.name !== '') {
@@ -25,12 +26,12 @@ router.get('/', checkAuthenticated, async (req, res) => {
     }
 })
 
-// Create product route
+// create product route
 router.get('/new', checkAuthenticated, (req, res) => {
     renderNewPage(res, new Product())
 })
 
-// Create product route
+// create product route
 router.post('/', checkAuthenticated, async (req, res) => {
     const product = new Product({
         name: req.body.name,
@@ -50,7 +51,7 @@ router.post('/', checkAuthenticated, async (req, res) => {
     }
 })
 
-// Show product route
+// show product route
 router.get('/:id', checkAuthenticated, async (req, res) => {
     try {
         const product = await Product.findById(req.params.id)
@@ -60,7 +61,7 @@ router.get('/:id', checkAuthenticated, async (req, res) => {
     }
 })
 
-// Update product route
+// update product route
 router.get('/:id/edit', checkAuthenticated, async (req, res) => {
     try {
         const product = await Product.findById(req.params.id)
@@ -70,7 +71,7 @@ router.get('/:id/edit', checkAuthenticated, async (req, res) => {
     }
 })
 
-// Update product route
+// update product route
 router.put('/:id', checkAuthenticated, async (req, res) => {
     let product
     try {
@@ -94,7 +95,7 @@ router.put('/:id', checkAuthenticated, async (req, res) => {
     }
 })
 
-// Delete product route
+// delete product route
 router.delete('/:id', checkAuthenticated, async (req, res) => {
     let product
     try {
@@ -113,14 +114,17 @@ router.delete('/:id', checkAuthenticated, async (req, res) => {
     }
 })
 
+// function render new product page
 function renderNewPage(res, product, hasError = false) {
     renderFormPage(res, product, 'new', hasError)
 }
 
+// function render edit product page
 function renderEditPage(res, product, hasError = false) {
     renderFormPage(res, product, 'edit', hasError)
 }
 
+// function to render form of a page
 function renderFormPage(res, product, form, hasError = false) {
     try {
         const params = {
@@ -139,6 +143,7 @@ function renderFormPage(res, product, form, hasError = false) {
     }
 }
 
+// function to save product cover
 function saveCover(product, coverEncoded) {
     if (coverEncoded == null) return
     const cover = JSON.parse(coverEncoded)
@@ -148,6 +153,7 @@ function saveCover(product, coverEncoded) {
     }
 }
 
+// function check user is authenticated
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next()

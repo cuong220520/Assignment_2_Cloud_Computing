@@ -5,7 +5,8 @@ const passport = require('passport')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
 
-router.get('/', checkAuthenticated,async (req, res) => {
+// index page
+router.get('/', checkAuthenticated, async (req, res) => {
     let products
     try {
         products = await Product.find().sort({ publishDate: 'desc' }).limit(10)
@@ -15,10 +16,12 @@ router.get('/', checkAuthenticated,async (req, res) => {
     res.render('index', { products: products });
 });
 
+// render register page
 router.get('/register', checkNotAuthenticated,(req, res) => {
     res.render('register.ejs')
 })
 
+// register an account
 router.post('/register', checkNotAuthenticated,async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
@@ -29,27 +32,30 @@ router.post('/register', checkNotAuthenticated,async (req, res) => {
         })  
         await user.save()
         res.redirect('/login')
-    } catch (err) {
-        console.log(err)
-        renderFormPage(res, user, true)
+    } catch {
+        res.redirect('/register')
     }
 })
 
+// render login page
 router.get('/login', checkNotAuthenticated, (req, res) => {
     res.render('login.ejs')
 })
 
+// check email and password is corrected
 router.post('/login', checkNotAuthenticated, passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true
 }))
 
+// logout
 router.delete('/logout', (req, res) => {
     req.logOut()
     res.redirect('/login')
 })
 
+// check user is authenticated
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next()
@@ -58,24 +64,13 @@ function checkAuthenticated(req, res, next) {
     res.redirect('/login')
 }
 
+// check user is not authenticated
 function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return res.redirect('/')
     }
 
     next()
-}
-
-function renderFormPage(res, user, hasError = false) {
-    try {
-        const params = {
-            user: user
-        }
-        if(hasError) params.errorMessage = 'Error Creating Account'
-        res.render('/login')
-    } catch {
-        res.redirect('/register')
-    }
 }
 
 module.exports = router;
